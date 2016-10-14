@@ -7,6 +7,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include "unistd.h"
 using namespace std;
 class Maze
 {
@@ -17,10 +18,7 @@ private:
   int enterY;
   int exitX;
   int exitY;
-  int creatureX;
-  int creatureY;
   string* mazeArrayPtr;
-  bool** visitedArrayPtr;
   
 public:
   Maze(std::string filename);
@@ -32,8 +30,8 @@ public:
   int getExitX();
   int getExitY();
   void markPath(int x, int y);
+  void markVisited(int x, int y);
   bool getVisited(int x, int y);
-  void setCreaturePos(int x, int y);
   void display();
 }; // end Maze
 #endif

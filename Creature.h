@@ -14,8 +14,9 @@ public:
   Creature(int startX, int startY);
   int getX() const;
   int getY() const;
-  void setX(int y);
-  void setY(int x);
+  void setX(int x);
+  void setY(int y);
+  
   
 }; // end Creature
 #endif

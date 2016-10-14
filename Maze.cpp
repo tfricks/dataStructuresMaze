@@ -12,34 +12,20 @@ Maze :: Maze(string filename)
   getline(fin, holder);                     // read in enter location
   stringstream(holder) >> enterY >> enterX; // store enter location
   mazeArrayPtr = new string[rows];          // alloc memory for 2d maze array
-  visitedArrayPtr = new bool*[rows];        // alloc memory for 2d bool array
   
-  bool failed = false;
+  //bool failed = false;
   for(int i = 0; i < rows; i++)             // read everything in
   {
-    getline(fin, holder);
-    visitedArrayPtr[i] = new bool[cols];
-    for(int j = 0; j < cols; j++)
-    {
-      mazeArrayPtr[i][j] = holder[j];
-      visitedArrayPtr[i][j] = false;
-    }
+    getline(fin, mazeArrayPtr[i]);
   }
   
-  if((mazeArrayPtr[exitY][exitX] != " ") && (exitY != 0 || exitY != rows - 1 && exitX != 0 || exitX != cols)) failed = true;
+  //if((mazeArrayPtr[exitY][exitX] != " ") && (exitY != 0 || exitY!= rows - 1 && exitX != 0 || exitX != cols)) failed = true;
   
   fin.close();
-  creatureX = enterX;                       // set initial pos for creature
-  creatureY = enterY;
   }
 Maze :: ~Maze()
 {  
   delete[] mazeArrayPtr;
-  for(int i = 0; i < rows; i++)
-  {
-    delete[] visitedArrayPtr[i];
-  }
-  delete[] visitedArrayPtr;
 }
 bool Maze :: isWall(int x, int y)
 {
@@ -47,6 +33,12 @@ bool Maze :: isWall(int x, int y)
 }
 bool Maze :: isPath(int x, int y)
 {
+  //cout << "testasdf" << endl;
+  if(x < cols && x >= 0 && y >= 0 && y < rows)
+  {
+    //cout << "test" << endl;
+    return mazeArrayPtr[y][x] == ' ';
+  }
   return false;
 }
 int Maze :: getEnterX()
@@ -65,41 +57,33 @@ int Maze :: getExitY()
 {
   return exitY;
 }
+void Maze :: markVisited(int x, int y)
+{
+  if(x < cols && x >= 0 && y >= 0 && y < rows)
+  {
+      mazeArrayPtr[y][x] = '.';
+  }
+}
 void Maze :: markPath(int x, int y)
 {
-  if(x < cols && y < rows)
+  if(x < cols && x >= 0 && y >= 0 && y < rows)
   {
-      visitedArrayPtr[x][y] = true;
+      mazeArrayPtr[y][x] = 'O';
   }
 }
-bool Maze :: getVisited(int x, int y)
-{
-  if(x < cols && y < rows)
-  {
-    return visitedArrayPtr[x][y];
-  }
-    return false;
-}
-void Maze :: setCreaturePos(int x, int y)
-{
-  if(x < cols && y < rows)
-  {
-    creatureX = x;
-    creatureY = y;
-  }
-}
+
 void Maze :: display()
 {
+  system("clear");
+  
   for(int i = 0; i < rows; i++)
   {
     for(int j = 0; j < cols; j++)
     {
-      if(!visitedArrayPtr[i][j])
-        cout << mazeArrayPtr[i][j];
-      else 
-        cout << ".";
-      cout << " ";
+        cout << mazeArrayPtr[i][j] << " ";
     }
     cout << endl;
-    }
+  }
+  
+  usleep(250000);
 }
